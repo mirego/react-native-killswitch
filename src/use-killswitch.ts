@@ -58,5 +58,5 @@ export function useKillswitch({
     run();
   }, [appState, getKillswitch, language, previousAppState, version]);
 
-  return { isOk, killswitch: killswitchRef.current };
+  return { isOk, killswitch: getKillswitch() };
 }
