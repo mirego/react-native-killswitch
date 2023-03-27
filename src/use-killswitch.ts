@@ -23,6 +23,9 @@ export function useKillswitch({
   timeout = 2000,
 }: UseKillswitchOptions) {
   const killswitchRef = useRef<Killswitch | null>(null);
+  const appState = useAppState();
+  const previousAppState = usePrevious(appState);
+  const [isOk, setIsOk] = useState<boolean | null>(null);
 
   const getKillswitch = useCallback(() => {
     if (killswitchRef.current !== null) return killswitchRef.current;
@@ -39,11 +42,6 @@ export function useKillswitch({
 
     return killswitch;
   }, [androidApiKey, apiHost, iosApiKey, timeout, useNativeUI]);
-
-  const appState = useAppState();
-  const previousAppState = usePrevious(appState);
-
-  const [isOk, setIsOk] = useState<boolean | null>(null);
 
   useEffect(() => {
     async function run() {
