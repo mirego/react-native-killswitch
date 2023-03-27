@@ -11,6 +11,7 @@ export default function App() {
       'a351227e97198cb4d71e6433ef7afcc185b49b8c364874b5129aacd08b576f59',
     language: 'fr',
     version: '0.10.0',
+    apiHost: 'https://killswitch.mirego.com',
   });
 
   return (

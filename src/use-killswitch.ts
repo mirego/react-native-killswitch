@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import usePrevious from './hooks/use-previous';
 import { useAppState } from './hooks/use-app-state';
 import Killswitch from './killswitch';
@@ -8,7 +8,7 @@ interface UseKillswitchOptions {
   androidApiKey: string;
   language: string;
   version: string;
-  apiHost?: string;
+  apiHost: string;
   useNativeUI?: boolean;
   timeout?: number;
 }
@@ -18,23 +18,35 @@ export function useKillswitch({
   androidApiKey,
   language,
   version,
-  apiHost = 'https://killswitch.mirego.com',
+  apiHost,
   useNativeUI = true,
   timeout = 2000,
 }: UseKillswitchOptions) {
-  const killswitch = useRef(
-    new Killswitch({ iosApiKey, androidApiKey, apiHost, useNativeUI, timeout })
-  );
-
+  const killswitchRef = useRef<Killswitch | null>(null);
   const appState = useAppState();
   const previousAppState = usePrevious(appState);
-
   const [isOk, setIsOk] = useState<boolean | null>(null);
+
+  const getKillswitch = useCallback(() => {
+    if (killswitchRef.current !== null) return killswitchRef.current;
+
+    const killswitch = new Killswitch({
+      iosApiKey,
+      androidApiKey,
+      apiHost,
+      useNativeUI,
+      timeout,
+    });
+
+    killswitchRef.current = killswitch;
+
+    return killswitch;
+  }, [androidApiKey, apiHost, iosApiKey, timeout, useNativeUI]);
 
   useEffect(() => {
     async function run() {
       if (previousAppState !== 'active' && appState === 'active') {
-        const { isOk: newIsOk } = await killswitch.current.check(
+        const { isOk: newIsOk } = await getKillswitch().check(
           language,
           version
         );
@@ -44,7 +56,7 @@ export function useKillswitch({
     }
 
     run();
-  }, [appState, language, previousAppState, version]);
+  }, [appState, getKillswitch, language, previousAppState, version]);
 
-  return { isOk, killswitch: killswitch.current };
+  return { isOk, killswitch: getKillswitch() };
 }

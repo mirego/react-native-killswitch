@@ -47,7 +47,7 @@ const { isOk } = useKillswitch({
   the correct behavior to your users.
 
 - `apiHost`
-  The host of the killswitch back-end. Defaults to: `https://killswitch.mirego.com`
+  The host of the killswitch back-end.
 
 - `useNativeUI`
   Use native alerts to display messages. Defaults to `true`
