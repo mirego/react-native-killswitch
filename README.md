@@ -6,6 +6,11 @@
   </p>
 </div>
 
+
+## What is Killswitch?
+
+[Killswitch is a clever control panel](https://github.com/mirego/killswitch) built by Mirego that allows mobile developers to apply runtime version-specific behaviors to their iOS or Android application.
+
 ## Installation
 
 ```sh
