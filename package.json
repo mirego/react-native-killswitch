@@ -1,6 +1,6 @@
 {
   "name": "react-native-killswitch",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "The official React Native implementation of Mirego’s killswitch",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
