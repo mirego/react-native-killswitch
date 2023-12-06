@@ -4,9 +4,10 @@
   <p>
     <strong>React Native Killswitch</strong> is a library built by <a href="https://www.mirego.com">Mirego</a> that allows mobile developers to apply<br /> runtime version-specific behaviors to their React Native application.
   </p>
-  
-  <a href="https://github.com/mirego/react-native-killswitch/actions/workflows/ci.yaml"><img src="https://github.com/mirego/react-native-killswitch/actions/workflows/ci.yaml/badge.svg?branch=main" /></a>
-  <a href="https://github.com/mirego/react-native-killswitch/tags"><img src="https://img.shields.io/npm/v/react-native-killswitch.svg"></a><br /><br />
+
+<a href="https://github.com/mirego/react-native-killswitch/actions/workflows/ci.yaml"><img src="https://github.com/mirego/react-native-killswitch/actions/workflows/ci.yaml/badge.svg?branch=main" /></a>
+<a href="https://github.com/mirego/react-native-killswitch/tags"><img src="https://img.shields.io/npm/v/react-native-killswitch.svg"></a><br /><br />
+
 </div>
 
 ## What is Killswitch?

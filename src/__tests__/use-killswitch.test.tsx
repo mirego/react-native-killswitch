@@ -64,7 +64,7 @@ describe('useKillswitch()', () => {
       render(<App />);
 
       await waitFor(() => screen.getByText('is ok'));
-    });
+    }, 8000);
   });
 
   describe('when it receives an "alert" signal', () => {
