@@ -11,6 +11,7 @@ interface UseKillswitchOptions {
   apiHost: string;
   useNativeUI?: boolean;
   timeout?: number;
+  enabled?: boolean;
 }
 
 export function useKillswitch({
@@ -20,6 +21,7 @@ export function useKillswitch({
   version,
   apiHost,
   useNativeUI = true,
+  enabled = true,
   timeout = 2000,
 }: UseKillswitchOptions) {
   const killswitchRef = useRef<Killswitch | null>(null);
@@ -28,7 +30,11 @@ export function useKillswitch({
   const [isOk, setIsOk] = useState<boolean | null>(null);
 
   const getKillswitch = useCallback(() => {
-    if (killswitchRef.current !== null) return killswitchRef.current;
+    if (
+      killswitchRef.current !== null &&
+      killswitchRef.current?.enabled === enabled
+    )
+      return killswitchRef.current;
 
     const killswitch = new Killswitch({
       iosApiKey,
@@ -36,19 +42,21 @@ export function useKillswitch({
       apiHost,
       useNativeUI,
       timeout,
+      enabled,
     });
 
     killswitchRef.current = killswitch;
 
     return killswitch;
-  }, [androidApiKey, apiHost, iosApiKey, timeout, useNativeUI]);
+  }, [androidApiKey, apiHost, iosApiKey, timeout, useNativeUI, enabled]);
 
   useEffect(() => {
     async function run() {
       if (previousAppState !== 'active' && appState === 'active') {
         const { isOk: newIsOk } = await getKillswitch().check(
           language,
-          version
+          version,
+          enabled
         );
 
         setIsOk(newIsOk);
@@ -56,7 +64,7 @@ export function useKillswitch({
     }
 
     run();
-  }, [appState, getKillswitch, language, previousAppState, version]);
+  }, [appState, getKillswitch, language, previousAppState, version, enabled]);
 
   return { isOk, killswitch: getKillswitch() };
 }

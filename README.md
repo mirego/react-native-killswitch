@@ -33,6 +33,7 @@ const { isOk } = useKillswitch({
   androidApiKey: androidApiKey,
   language: myAppLanguage,
   version: myAppVersion,
+  enabled: true,
 });
 ```
 
@@ -62,6 +63,9 @@ const { isOk } = useKillswitch({
 
 - `timeout`
   A number of milliseconds to wait for the back-end before returning `isOk = true`. Defaults to `2000`
+
+- `enabled`
+  Toggle if you want to disabled. Defaults to `true`
 
 ## License
 

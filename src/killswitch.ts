@@ -42,6 +42,7 @@ interface KillswitchOptions {
   androidApiKey: string;
   useNativeUI?: boolean;
   timeout?: number;
+  enabled?: boolean;
 }
 
 class Killswitch {
@@ -50,6 +51,7 @@ class Killswitch {
   androidApiKey: string;
   useNativeUI: boolean;
   timeout: number;
+  enabled: boolean;
 
   behavior?: z.infer<typeof KillswitchBehavior>;
 
@@ -59,12 +61,14 @@ class Killswitch {
     androidApiKey,
     useNativeUI = true,
     timeout = 2000,
+    enabled = true,
   }: KillswitchOptions) {
     this.apiHost = apiHost;
     this.iosApiKey = iosApiKey;
     this.androidApiKey = androidApiKey;
     this.useNativeUI = useNativeUI;
     this.timeout = timeout;
+    this.enabled = enabled;
   }
 
   get isOk() {
@@ -79,7 +83,8 @@ class Killswitch {
     return this.behavior?.action === KillswitchBehaviorAction.KILL;
   }
 
-  async check(language: string, version: string) {
+  async check(language: string, version: string, enabled: boolean) {
+    if (!enabled) return { isOk: true };
     try {
       const payload = await this.fetch(language, version);
 
@@ -120,7 +125,6 @@ class Killswitch {
           signal,
         }
       );
-
       return response.json();
     } finally {
       clearTimeout(timeout);
@@ -131,6 +135,10 @@ class Killswitch {
     if (!this.behavior) return;
 
     if (this.isOk) {
+      return;
+    }
+
+    if (!this.enabled) {
       return;
     }
 
